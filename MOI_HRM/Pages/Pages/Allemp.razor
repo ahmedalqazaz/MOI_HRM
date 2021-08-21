@@ -1,0 +1,48 @@
+﻿@page "/allemp"
+@using MOI_HRM.Models
+@using MOI_HRM.Interfaces
+@inject IHRM _IHRM
+<table class="table table-striped text-center" dir="rtl">
+    <tr style="background-color:lightblue">
+        <th>الرقم الاحصائي</th>
+        <th>الدرجة</th>
+        <th>الاسم الكامل</th>
+        <th>القسم</th>
+        <th>الجنس</th>
+        <th>التحصيل الدراسي</th>
+    </tr>
+    @foreach(var item in AllEmp )
+    {
+<tr>
+    <td>@item.StNumber</td>
+    <td>@item.rank</td>
+    <td>@item.FName</td>
+    <td>@item.department</td>
+    <td>@item.gender</td>
+    <td>@item.study</td>
+    <td><button type="submit" class="btn btn-primary">التفاصيل</button></td>
+</tr>
+    
+    
+    
+    
+    }
+
+</table>
+
+
+
+
+
+
+
+    @code {
+public List<HRM> AllEmp { get; set; } = new List<HRM>();
+
+
+protected override async Task OnInitializedAsync()
+        {
+            AllEmp=await _IHRM.allEmp();
+
+        }
+    }
