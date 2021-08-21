@@ -30,8 +30,8 @@ namespace MOI_HRM.Repositories
 
         public async Task<bool> CkEmp(HRM ChkEmp)
         {
-            var Chk =await _db.HRMTable.SingleOrDefaultAsync(A => A.FName == ChkEmp.FName);
-            if(Chk==null)
+            var Chk = await _db.HRMTable.SingleOrDefaultAsync(A => A.FName == ChkEmp.FName);
+            if (Chk == null)
             {
                 return false;
             }
@@ -39,6 +39,24 @@ namespace MOI_HRM.Repositories
             {
                 return true;
             }
+        }
+
+        public async Task<List<HRM>> allEmp()
+        {
+            var ListOfEmp = await _db.HRMTable.ToListAsync();
+            return ListOfEmp;
+        }
+
+        public async Task<HRM> SearchByID(int ID)
+        {
+            var HRM = await _db.HRMTable.SingleOrDefaultAsync(A => A.ID == ID);
+            return HRM;
+        }
+
+        public async Task<HRM> SearchByN(string CurrentValue)
+        {
+            var SeEmp = await _db.HRMTable.SingleOrDefaultAsync(A => A.FName == CurrentValue);
+            return SeEmp;
         }
     }
 }

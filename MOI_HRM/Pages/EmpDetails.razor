@@ -1,0 +1,46 @@
+﻿@page "/empdetails/{id}"
+@using MOI_HRM.Models
+@using MOI_HRM.Interfaces
+
+@inject IHRM _IHRM
+<form>
+
+    <div class="input-group mb-3" style="direction:rtl;">
+        <span class="input-group-text" id="basic-addon1">اسم الموظف</span>
+        <input type="text" @bind-value="EmpDetail.FName" class="form-control" placeholder="اسم الموظف" aria-label="اسم الموظف" aria-describedby="basic-addon1" required>
+    </div>
+    <div class="input-group mb-3" style="direction:rtl">
+        <span class="input-group-text" id="basic-addon1">الدرجة الوظيفية</span>
+        <input type="text" @bind-value="EmpDetail.rank" class="form-control" placeholder="الدرجة الوظيفية" aria-label="الدرجة الوظيفية" aria-describedby="basic-addon1" required>
+    </div>
+    <div class="input-group mb-3" style="direction:rtl">
+        <span class="input-group-text" id="basic-addon1">الرقم الوظيفي</span>
+        <input type="text" @bind-value="EmpDetail.StNumber" class="form-control" placeholder="الرقم الوظيفي" aria-label="الرقم الوظيفي" aria-describedby="basic-addon1" required>
+    </div>
+    <div class="input-group mb-3" style="direction:rtl">
+        <span class="input-group-text" id="basic-addon1">الجنس</span>
+        <input type="text" @bind-value="EmpDetail.gender" class="form-control" placeholder="الجنس" aria-label="الجنس" aria-describedby="basic-addon1" required>
+    </div>
+    <div class="input-group mb-3" style="direction:rtl">
+        <span class="input-group-text" id="basic-addon1">التحصيل الدراسي</span>
+        <input type="text" @bind-value="EmpDetail.study" class="form-control" placeholder="التحصيل الدراسي" aria-label="التحصيل الدراسي" aria-describedby="basic-addon1" required>
+    </div>
+    <div class="input-group mb-3" style="direction:rtl" >
+        <span class="input-group-text" id="basic-addon1">القسم</span>
+        <input type="text" @bind-value="EmpDetail.department" class="form-control" placeholder="القسم" aria-label="القسم" aria-describedby="basic-addon1" required>
+    </div>
+    <button type="submit" class="btn btn-primary">تحديث البيانات</button>
+</Form>
+    @code {
+        [Parameter]
+        public string id { get; set; }
+        public HRM EmpDetail { get; set; } = new HRM();
+        protected override async Task OnInitializedAsync()
+        {
+            EmpDetail =await _IHRM.SearchByID(int.Parse(id));
+
+        }
+
+
+
+    }

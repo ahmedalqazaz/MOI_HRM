@@ -10,5 +10,9 @@ namespace MOI_HRM.Interfaces
     {
         public Task<string> AddEmp(HRM IncomingHRM);
         public Task<bool> CkEmp(HRM ChkEmp);
+        public Task<List<HRM>> allEmp();
+        public Task<HRM>SearchByID(int ID);
+        public Task<HRM> SearchByN(String CurrentValue);
+
     }
 }
