@@ -1,0 +1,78 @@
+﻿@page "/addempy" 
+@using MOI_HRM.Models
+@using MOI_HRM.Interfaces
+@inject IHRM _IHRM
+@inject IJSRuntime _js  //هنا يتم اضافة جافا سكريبت لغرض عرض الرسالة
+@MessageToUser
+<EditForm Model="HRM"  OnValidSubmit="SendEmpToBe">
+   
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"></span>
+            <input type="text" @bind-value="HRM.FName" class="form-control" placeholder="اسم الموظف" aria-label="اسم الموظف" aria-describedby="basic-addon1" required>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"></span>
+            <input type="text" @bind-value="HRM.rank" class="form-control" placeholder="الدرجة الوظيفية" aria-label="الدرجة الوظيفية" aria-describedby="basic-addon1" required>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"></span>
+            <input type="text" @bind-value="HRM.StNumber" class="form-control" placeholder="الرقم الوظيفي" aria-label="الرقم الوظيفي" aria-describedby="basic-addon1" required>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"></span>
+            <input type="text" @bind-value="HRM.gender" class="form-control" placeholder="الجنس" aria-label="الجنس" aria-describedby="basic-addon1" required>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"></span>
+            <input type="text" @bind-value="HRM.study" class="form-control" placeholder="التحصيل الدراسي" aria-label="التحصيل الدراسي" aria-describedby="basic-addon1" required>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"></span>
+            <input type="text" @bind-value="HRM.department" class="form-control" placeholder="القسم" aria-label="القسم" aria-describedby="basic-addon1"  required>
+        </div>
+        <button type="submit" class="btn btn-primary">اضافة موظف</button>
+       
+
+   
+</EditForm>
+
+
+
+
+@code {
+    public HRM HRM { get; set; } = new HRM();
+    public String MessageToUser { get; set; }
+
+    private async Task SendEmpToBe()
+    {
+        var Chk = await _IHRM.CkEmp(HRM);
+
+        if (Chk==true)
+        {
+            await _js.InvokeVoidAsync ("alert",$"{HRM.FName}مدخل مسبقا");
+            MessageToUser="الموظف مدخل مسبقا";
+        }
+        else
+        {
+            var result=await _js.InvokeAsync<bool>("confirm", $"  هل انت متاكد من اضافة{HRM.FName}");
+            if(result)
+            {
+                var Message = await _IHRM.AddEmp(HRM);
+                await _js.InvokeVoidAsync("alert", $" تم اضافة{HRM.FName}");
+            }
+
+
+
+
+            HRM = new HRM();
+            StateHasChanged();
+        }
+
+
+
+
+
+    }
+
+
+}
